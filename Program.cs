@@ -14,7 +14,7 @@ namespace Graph_Plotter
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Graph Plotter");
+            Console.WriteLine("GRAPH PLOTTER"); 
             Console.WriteLine("Menu:");
             Console.WriteLine("1  Input data");
             Console.WriteLine("2  Exit");
