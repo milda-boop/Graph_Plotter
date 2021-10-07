@@ -25,17 +25,8 @@ namespace Graph_Plotter
                 Console.WriteLine("1  Quadratic");
                 Console.WriteLine("2  Linear");
                 int answer = int.Parse(Console.ReadLine());
-                
-                if (answer==1)
-                {
-                    Quadratic graph = new Quadratic();
-                    //InputData(graph);
-                }
-                else
-                {
-                    Graph graph = new Graph();
-                    //InputData(graph);
-                }
+
+                Graph graph = InitGraph(answer);
                 InputData(graph);
 
                 Console.WriteLine("Title of Graph?");
@@ -44,30 +35,43 @@ namespace Graph_Plotter
                 string xtitle = Console.ReadLine();
                 Console.WriteLine("Title of y-axis?");
                 string ytitle = Console.ReadLine();
+
                 graph.PlotGraph(title,xtitle,ytitle);
             }
-            
+        }  // Main
 
+        private static Graph InitGraph(int type)
+        {
+            if (type == 1)
+            {
+                Quadratic graph = new Quadratic();
+                return graph;
+                
+            }
+            else
+            {
+                Graph graph = new Graph();
+                return graph;
+                
+            }
         }
+
         const string graphpoints = "graphpoints.txt";
         private static void InputData(Graph graph)
         {
             
             StreamReader PointsFile = new StreamReader(graphpoints); //reads the text file.
             int LineCount = File.ReadLines(graphpoints).Count();
-            //Graph graph = new Graph();
+            
             Point[] data = new Point[LineCount];
             for (int i = 0; i < LineCount; i++)
             {
                 data[i]  = new Point(PointsFile.ReadLine()); //reads new line after each row.
                 graph.AddPoint(data[i]);
             }
-            //graph.PlotPoints();
+            
             PointsFile.Close();
-            /*Console.WriteLine(data[0].GetX());
-            Console.WriteLine(data[3].GetY());
-            Console.WriteLine(data[2].GetX());
-            Console.WriteLine(data[2].GetY());*/
+            
 
             Console.ReadLine();
         }
@@ -95,13 +99,15 @@ namespace Graph_Plotter
     }
     public class Graph
     {
-        List<Point> points = new List<Point>();
-        float xmax = 0;
-        float ymax = 0;
+        private List<Point> points = new List<Point>();
+        private float xmax = 0;
+        private float ymax = 0;
+        protected string equation;
         public Graph()
         {
 
         }
+        
 
         public void AddPoint(Point point)
         {
@@ -153,7 +159,19 @@ namespace Graph_Plotter
     }
     public class Quadratic : Graph
     {
+        
+        public void Equation()
+        {
+            equation = "";
+        }
+    }
 
+    public class Linear : Graph
+    {
+        public void Equation()
+        {
+
+        }
     }
 }
 
