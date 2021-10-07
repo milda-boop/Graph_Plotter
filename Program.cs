@@ -14,6 +14,7 @@ namespace Graph_Plotter
     {
         static void Main(string[] args)
         {
+            
             Console.WriteLine("GRAPH PLOTTER"); 
             Console.WriteLine("Menu:");
             Console.WriteLine("1  Input data");
@@ -24,25 +25,44 @@ namespace Graph_Plotter
                 Console.WriteLine("1  Quadratic");
                 Console.WriteLine("2  Linear");
                 int answer = int.Parse(Console.ReadLine());
-                InputData(answer);
+                
+                if (answer==1)
+                {
+                    Quadratic graph = new Quadratic();
+                    //InputData(graph);
+                }
+                else
+                {
+                    Graph graph = new Graph();
+                    //InputData(graph);
+                }
+                InputData(graph);
+
+                Console.WriteLine("Title of Graph?");
+                string title = Console.ReadLine();
+                Console.WriteLine("Title of x-axis?");
+                string xtitle = Console.ReadLine();
+                Console.WriteLine("Title of y-axis?");
+                string ytitle = Console.ReadLine();
+                graph.PlotGraph(title,xtitle,ytitle);
             }
             
 
         }
         const string graphpoints = "graphpoints.txt";
-        private static void InputData(int answer)
+        private static void InputData(Graph graph)
         {
             
             StreamReader PointsFile = new StreamReader(graphpoints); //reads the text file.
             int LineCount = File.ReadLines(graphpoints).Count();
-            Graph graph = new Graph();
+            //Graph graph = new Graph();
             Point[] data = new Point[LineCount];
             for (int i = 0; i < LineCount; i++)
             {
                 data[i]  = new Point(PointsFile.ReadLine()); //reads new line after each row.
                 graph.AddPoint(data[i]);
             }
-            graph.PlotPoints();
+            //graph.PlotPoints();
             PointsFile.Close();
             /*Console.WriteLine(data[0].GetX());
             Console.WriteLine(data[3].GetY());
@@ -95,7 +115,7 @@ namespace Graph_Plotter
                 ymax = Math.Abs(point.GetY());
             }
         }
-        public void PlotPoints()
+        public void PlotGraph(string title, string xtitle, string ytitle)
         {
             float xmultiplier = 200 / xmax;
             float ymultiplier = 200 / ymax;
@@ -115,7 +135,7 @@ namespace Graph_Plotter
                     g.Clear(Color.Gray);
                     g.DrawLine(blackPen, point1, point2);
                     g.DrawLine(blackPen, point3, point4);
-                    g.DrawString("lord chambord", new Font("Tahoma", 16), Brushes.Black, rectf,sf);
+                    g.DrawString(title, new Font("Tahoma", 16), Brushes.Black, rectf,sf);
                     
                     for(int i=0;i<points.Count;i++)
                     {
@@ -130,6 +150,10 @@ namespace Graph_Plotter
                 b.Save(@"C:\Users\milda\graph.png", ImageFormat.Png);
             }
         }
+    }
+    public class Quadratic : Graph
+    {
+
     }
 }
 
