@@ -99,7 +99,8 @@ namespace Graph_Plotter
     }
     public class Graph
     {
-        private List<Point> points = new List<Point>();
+        protected List<Point> points = new List<Point>();
+        protected List<Point> bestfit = new List<Point>();
         private float xmax = 0;
         private float ymax = 0;
         protected string equation;
@@ -121,6 +122,8 @@ namespace Graph_Plotter
                 ymax = Math.Abs(point.GetY());
             }
         }
+
+        
         public void PlotGraph(string title, string xtitle, string ytitle)
         {
             float xmultiplier = 200 / xmax;
@@ -159,16 +162,32 @@ namespace Graph_Plotter
     }
     public class Quadratic : Graph
     {
+        int a = 0;
+        int b = 0;
+        int c = 0;
         
-        public void Equation()
+        public void BestFit()
         {
-            equation = "";
+            int n = points.Count();
+
+        }
+
+        public void InputCurveData()
+        {
+
         }
     }
 
     public class Linear : Graph
     {
-        public void Equation()
+        int a = 0;
+        int b = 0;
+        public void BestFit()
+        {
+
+        }
+
+        public void InputCurveData()
         {
 
         }
