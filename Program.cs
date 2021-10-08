@@ -28,7 +28,7 @@ namespace Graph_Plotter
 
                 Graph graph = InitGraph(answer);
                 InputData(graph);
-
+                graph.BestFit();
                 Console.WriteLine("Title of Graph?");
                 string title = Console.ReadLine();
                 Console.WriteLine("Title of x-axis?");
@@ -50,7 +50,7 @@ namespace Graph_Plotter
             }
             else
             {
-                Graph graph = new Graph();
+                Linear graph = new Linear();
                 return graph;
                 
             }
@@ -78,32 +78,35 @@ namespace Graph_Plotter
     }
     public class Point
     {
-        private float x;
-        private float y;
+        private double x;
+        private double y;
 
         public Point(string point)
         {
             string[] splitpoint = point.Split(',');
-            this.x = float.Parse(splitpoint[0]);
-            this.y = float.Parse(splitpoint[1]);
+            this.x = double.Parse(splitpoint[0]);
+            this.y = double.Parse(splitpoint[1]);
         }
-        public float GetX()
+        public double GetX()
         {
             return x;
         }
 
-        public float GetY()
+        public double GetY()
         {
             return y;
         }
     }
-    public class Graph
+    abstract public class Graph
     {
         protected List<Point> points = new List<Point>();
         protected List<Point> bestfit = new List<Point>();
-        private float xmax = 0;
-        private float ymax = 0;
+        private double xmax = 0;
+        private double ymax = 0;
         protected string equation;
+
+        abstract public void BestFit();
+        
         public Graph()
         {
 
@@ -126,8 +129,8 @@ namespace Graph_Plotter
         
         public void PlotGraph(string title, string xtitle, string ytitle)
         {
-            float xmultiplier = 200 / xmax;
-            float ymultiplier = 200 / ymax;
+            double xmultiplier = 200 / xmax;
+            double ymultiplier = 200 / ymax;
             Pen blackPen = new Pen(Color.Black, 3);
             PointF point1 = new PointF(100.0F, 300.0F);
             PointF point2 = new PointF(500.0F, 300.0F);
@@ -148,8 +151,8 @@ namespace Graph_Plotter
                     
                     for(int i=0;i<points.Count;i++)
                     {
-                        float x = points[i].GetX()*xmultiplier;
-                        float y = points[i].GetY()*ymultiplier;
+                        float x = (float)(points[i].GetX() * xmultiplier);
+                        float y = (float)(points[i].GetY()*ymultiplier);
                         //g.DrawString("X", new Font("Calibri", 9), new SolidBrush(Color.Black), 300+x, 300-y);
                         g.DrawEllipse(blackPen, (300 + x)-2, (300 - y)-2, 4, 4);
                     }
@@ -162,14 +165,41 @@ namespace Graph_Plotter
     }
     public class Quadratic : Graph
     {
-        int a = 0;
-        int b = 0;
-        int c = 0;
+       
         
-        public void BestFit()
+        public override void BestFit()
         {
             int n = points.Count();
+            double sumx = 0;
+            double sumy = 0;
+            double sumx2 = 0;
+            double sumx3 = 0;
+            double sumx4 = 0;
+            double sumxy = 0;
+            double sumx2y = 0;
+            foreach(Point i in points)
+            {
+               sumx = sumx + i.GetX();
+               sumy = sumy + i.GetY();
+               sumx2 = sumx2 + Math.Pow(i.GetX(), 2);
+               sumx3 = sumx3 + Math.Pow(i.GetX(), 3);
+               sumx4 = sumx4 + Math.Pow(i.GetX(), 4);
+               sumxy = sumxy + i.GetX() * i.GetY();
+               sumx2y = sumx2y + Math.Pow(i.GetX(), 2) * i.GetY();
+            }
+            //Console.WriteLine(sumx2y);
+            double sumxx = (sumx2) - ((Math.Pow(sumx, 2)) / n);
+            sumxy = (sumxy) - ((sumx*sumy) / n);
+            double sumxx2 = (sumx3) - ((sumx2*sumx) / n);
+            sumx2y = (sumx2y) - ((sumx2 * sumy) / n);
+            double sumx2x2 = (sumx4) - ((Math.Pow(sumx2,2)) / n);
 
+            double a = ((sumx2y*sumxx)-(sumxy*sumxx2))/((sumxx*sumx2x2)-(Math.Pow(sumxx2,2)));
+            double b = ((sumxy * sumx2x2) - (sumx2y * sumxx2)) / ((sumxx * sumx2x2) - (Math.Pow(sumxx2, 2))); 
+            double c = (sumy/n)-(b*(sumx/n))-(a*(sumx2/n));
+            Console.WriteLine(a);
+            Console.WriteLine(b);
+            Console.WriteLine(c);
         }
 
         public void InputCurveData()
@@ -182,7 +212,7 @@ namespace Graph_Plotter
     {
         int a = 0;
         int b = 0;
-        public void BestFit()
+        public override void BestFit()
         {
 
         }
