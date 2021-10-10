@@ -29,6 +29,7 @@ namespace Graph_Plotter
                 Graph graph = InitGraph(answer);
                 InputData(graph);
                 graph.BestFit();
+                graph.Accuracy();
                 graph.InputCurveData();
                 Console.WriteLine("Title of Graph?");
                 string title = Console.ReadLine();
@@ -114,6 +115,7 @@ namespace Graph_Plotter
 
         abstract public void BestFit();
         abstract public void InputCurveData();
+        abstract public void Accuracy();
         
         public Graph()
         {
@@ -194,6 +196,7 @@ namespace Graph_Plotter
        double a = 0;
        double b = 0;
        double c = 0;
+       double r = 0;
         
         public override void BestFit()
         {
@@ -230,6 +233,25 @@ namespace Graph_Plotter
             Console.WriteLine(c);
         }
 
+        public override void Accuracy()
+        {
+            double SSE = 0;
+            double SST = 0;
+            double ysum = 0;
+            foreach(Point i in points)
+            {
+                ysum = ysum + i.GetY();
+            }
+            double ymean = ysum / points.Count();
+            foreach(Point i in points)
+            {
+                SSE = SSE + Math.Pow((i.GetY() - a * Math.Pow(i.GetX(), 2) - b * (i.GetX()) - c), 2);
+                SST = SST + Math.Pow((i.GetY() - ymean), 2);
+            }
+            r = 1 - (SSE / SST);
+            Console.WriteLine("Accuracy: {0}", r);
+        }
+
         public override void InputCurveData()
         {
             for(int i = -200;i<=200;i++)
@@ -254,6 +276,10 @@ namespace Graph_Plotter
         public override void InputCurveData()
         {
 
+        }
+        public override void Accuracy()
+        {
+            
         }
     }
 }
