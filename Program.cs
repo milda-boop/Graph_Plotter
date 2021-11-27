@@ -39,6 +39,7 @@ namespace Graph_Plotter
                 string ytitle = Console.ReadLine();
 
                 graph.PlotGraph(title,xtitle,ytitle);
+                Console.ReadLine();
             }
         }  // Main
 
@@ -139,7 +140,7 @@ namespace Graph_Plotter
         {
             bestfit.Add(point);
            
-            if (Math.Abs(point.GetY()) > ymax)
+            if (Math.Abs(point.GetY()) > y_max)
             {
                 y_max = Math.Abs(point.GetY());
             }
@@ -148,6 +149,7 @@ namespace Graph_Plotter
         
         public void PlotGraph(string title, string xtitle, string ytitle)
         {
+            
             double xmultiplier = 200 / xmax;
             double ymultiplier = 200 / ymax;
             double y_multiplier = 200 / y_max;
@@ -173,9 +175,11 @@ namespace Graph_Plotter
                     
                     foreach(Point i in points)
                     {
-                        float x = (float)(i.GetX() * xmultiplier);
+                        float x = (float)(i.GetX()*xmultiplier);
                         float y = (float)(i.GetY() * ymultiplier);
                         g.DrawEllipse(greenPen, (300 + x) - 2, (300 - y) - 2, 4, 4);
+                        //Console.WriteLine(x);
+                        //Console.WriteLine(y);
                     }
                     foreach(Point i in bestfit)
                     {
@@ -183,6 +187,8 @@ namespace Graph_Plotter
                         float y = (float)(i.GetY()*y_multiplier);
                         
                         g.DrawEllipse(blackPen, (300 + x) - 2, (300 - y) - 2, 4, 4);
+                        //Console.WriteLine(x);
+                        //Console.WriteLine(y);
 
                     }
 
