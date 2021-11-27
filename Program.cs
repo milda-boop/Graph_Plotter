@@ -87,8 +87,8 @@ namespace Graph_Plotter
         public Point(string point)
         {
             string[] splitpoint = point.Split(',');
-            this.x = double.Parse(splitpoint[0]);
-            this.y = double.Parse(splitpoint[1]);
+            this.x = double.Parse(splitpoint[0])*Math.Pow(10,-12);
+            this.y = double.Parse(splitpoint[1])*Math.Pow(10,-12);
         }
         public Point(int x, double y)
         {
