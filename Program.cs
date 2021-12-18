@@ -15,30 +15,44 @@ namespace Graph_Plotter
         static void Main(string[] args)
         {
 
-            Console.WriteLine("Graph Plotter");
-            Console.WriteLine("Menu:");
-            Console.WriteLine("1  Input data");
-            Console.WriteLine("2  Exit");
+            Console.WriteLine("   _____ _____            _____  _    _   _____  _      ____ _______ _______ ______ _____ ");
+            Console.WriteLine("  / ____|  __ \\     /\\   |  __ \\| |  | | |  __ \\| |    / __ \\__   __|__   __|  ____|  __ \\ ");
+            Console.WriteLine(" | |  __| |__) |   /  \\  | |__) | |__| | | |__) | |   | |  | | | |     | |  | |__  | |__) |");
+            Console.WriteLine(" | | |_ |  _  /   / /\\ \\ |  ___/|  __  | |  ___/| |   | |  | | | |     | |  |  __| |  _  / ");
+            Console.WriteLine(" | |__| | | \\ \\  / ____ \\| |    | |  | | | |    | |___| |__| | | |     | |  | |____| | \\ \\");
+            Console.WriteLine("  \\_____|_|  \\_\\/_/    \\_\\_|    |_|  |_| |_|    |______\\____/  |_|     |_|  |______|_|  \\_\\");
+            Console.WriteLine();
+            Console.WriteLine("MENU:");
+            Console.WriteLine();
+            Console.WriteLine("1  Create a graph");
+            Console.WriteLine("2  Open a graph");
+            Console.WriteLine("3  Exit");
             if(int.Parse(Console.ReadLine())==1)
             {
+                Console.Clear();
                 Console.WriteLine("Type of Graph?");
+                Console.WriteLine();
                 Console.WriteLine("1  Quadratic");
                 Console.WriteLine("2  Linear");
                 int answer = int.Parse(Console.ReadLine());
-
+                Console.Clear();
+                Console.WriteLine("Calculating graph....");
                 Graph graph = InitGraph(answer);
                 InputData(graph);
                 graph.BestFit();
                 graph.Accuracy();
                 graph.InputCurveData();
+                
                 Console.WriteLine("Title of Graph?");
                 string title = Console.ReadLine();
                 Console.WriteLine("Title of x-axis?");
                 string xtitle = Console.ReadLine();
                 Console.WriteLine("Title of y-axis?");
                 string ytitle = Console.ReadLine();
-
+                Console.Clear();
+                Console.WriteLine("Plotting graph....");
                 graph.PlotGraph(title,xtitle,ytitle);
+                Console.WriteLine("Graph plotted");
                 Console.ReadLine();
             }
         }  // Main
@@ -76,7 +90,7 @@ namespace Graph_Plotter
             PointsFile.Close();
             
 
-            Console.ReadLine();
+            //Console.ReadLine();
         }
     }
     public class Point
@@ -296,8 +310,8 @@ namespace Graph_Plotter
             a = ((n * sumxy) - (sumx * sumy)) / ((n * sumx2) - Math.Pow(sumx, 2));
             b = sumy - (a * sumx);
             //b = (sumy - (a * sumx)) / n;
-            Console.WriteLine(a);
-            Console.WriteLine(b);
+            //Console.WriteLine(a);
+            //Console.WriteLine(b);
         }
 
         public override void InputCurveData()
@@ -323,7 +337,7 @@ namespace Graph_Plotter
             }
             SY = Math.Sqrt((sumy2 / n) - Math.Pow(sumy / n, 2));
             r = SXY / (SX * SY);
-            Console.WriteLine("Accuracy: {0}", r);
+            //Console.WriteLine("Accuracy: {0}", r);
         }
     }
 }
