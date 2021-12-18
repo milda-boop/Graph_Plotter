@@ -14,8 +14,8 @@ namespace Graph_Plotter
     {
         static void Main(string[] args)
         {
-            
-            Console.WriteLine("GRAPH PLOTTER"); 
+
+            Console.WriteLine("Graph Plotter");
             Console.WriteLine("Menu:");
             Console.WriteLine("1  Input data");
             Console.WriteLine("2  Exit");
@@ -273,19 +273,57 @@ namespace Graph_Plotter
 
     public class Linear : Graph
     {
-        
+        double a = 0;
+        double b = 0;
+        double r = 0;
+        double sumxy = 0;
+        double sumx = 0;
+        double sumy = 0;
+        double sumx2 = 0;
+        int n = 0;
         public override void BestFit()
         {
-
+            n = points.Count();
+            
+            foreach (Point i in points)
+            {
+                sumx = sumx + i.GetX();
+                sumy = sumy + i.GetY();
+                sumx2 = sumx2 + Math.Pow(i.GetX(), 2);
+                sumxy = sumxy + (i.GetX() * i.GetY());
+            }
+            
+            a = ((n * sumxy) - (sumx * sumy)) / ((n * sumx2) - Math.Pow(sumx, 2));
+            b = sumy - (a * sumx);
+            //b = (sumy - (a * sumx)) / n;
+            Console.WriteLine(a);
+            Console.WriteLine(b);
         }
 
         public override void InputCurveData()
         {
-
+            for (int i = -200; i <= 200; i++)
+            {
+                double j = (a * i) + b;
+                Point point = new Point(i, j);
+                AddbfPoint(point);
+            }
         }
         public override void Accuracy()
         {
-            
+            double SXY = 0;
+            double SX = 0;
+            double SY = 0;
+            double sumy2 = 0;
+            SXY = (sumxy / n) - (sumx / n) * (sumy / n);
+            SX = Math.Sqrt((sumx2 / n) - Math.Pow(sumx / n, 2));
+            foreach (Point i in points)
+            {
+                sumy2 = sumy2 + Math.Pow(i.GetY(), 2);
+            }
+            SY = Math.Sqrt((sumy2 / n) - Math.Pow(sumy / n, 2));
+            r = SXY / (SX * SY);
+            Console.WriteLine("Accuracy: {0}", r);
         }
     }
 }
